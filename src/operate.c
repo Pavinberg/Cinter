@@ -8,6 +8,9 @@ void run_cinter() {
 	system("./cinterprocess");
 }
 
-void clean() {
-	system("rm cinter.c cinter_last.c cinterprocess");
+void clean_and_exit() {
+	system("test -e cinter.c && rm cinter.c");
+	system("test -e last_cinter.c && rm last_cinter.c");
+	system("test -e cinterprocess && rm cinterprocess");
+	exit(0);
 }
