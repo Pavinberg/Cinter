@@ -42,9 +42,9 @@ void create_cinter_file() {
 	fflush(cinterf.fp);
 	//fflush(stdin);
 
-	/* char *cmd; */
-	/* cmd = strcat("cp ", strcat(cinterf.name, strcat(" ", last_cinterf.name))); */
-	system("cp cinter.c last_cinter.c");
+	char cmd[BUFFER_SIZE];
+	sprintf(cmd, "cp %s %s", cinterf.name, last_cinterf.name);
+	system(cmd);
 }
 
 int cinter_insert_head(char *stc, int len) {
