@@ -2,7 +2,7 @@
 
 void runCinter() {
 	system("gcc cinter.c -o cinterprocess");
-	system("./cinter");
+	system("./cinterprocess");
 }
 
 void clean() {

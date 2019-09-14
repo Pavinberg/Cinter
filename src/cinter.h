@@ -4,15 +4,12 @@
 
 #define BUFFER_SIZE 128
 
-FILE *cinterfp; // the pointer pointing to cinter.c
-fpos_t headPos, codePos; // postion to add #include... and codes.
-int tabNum; // the depth of {}
-
 // edit.c
 void print_info();
 void print_prompt();
-void create_cinter_file(fpos_t *headPos, fpos_t *codePos);
+void create_cinter_file();
 int cinter_write(char *stc);
+void closeProcess();
 
 // operate.c
 void runCinter();

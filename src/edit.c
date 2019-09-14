@@ -5,21 +5,32 @@ Always fseek before read or write.
 
 #include "cinter.h"
 
-void create_cinter_file(fpos_t *headPos, fpos_t *codePos) {
+FILE *cinterfp; // the pointer pointing to cinter.
+fpos_t headPos, codePos; // postion to add #include... and codes.
+int tabNum = 1; // the depth of {}
+
+void create_cinter_file() {
 	/* Create cinter.c with head files and main function. */
-	FILE *fp = fopen("cinter.c", "w");
+	
+	cinterfp = fopen("cinter.c", "w");
+	if(cinterfp == NULL) {
+		printf("Error when creating process.\n");
+		exit(-1);
+	}
+	
 	char head[] =
 "#include <stdio.h>\n\
 #include <stdlib.h>\n\
 #include <string.h>\n\
 #include <unistd.h>\n";
 	
-	fputs(head, fp);
-	*headPos = ftell(fp); // Position where #include... ends.
+	fputs(head, cinterfp);
+	headPos = ftell(cinterfp); // Position where #include... ends.
 	
-	fputs("\nint main() { \n", fp);
-	*codePos = ftell(fp); // Position where last line of codes ends.
-	fclose(fp);
+	fputs("\nint main() { \n", cinterfp);
+	codePos = ftell(cinterfp); // Position where last line of codes ends.
+
+	fflush(cinterfp);
 }
 
 void print_info() {
@@ -89,7 +100,7 @@ int cinter_write(char *stc) {
 	}
 	else {
 		// Add codes to main function. Doesn't use cinter_insert() up to now
-		// because it's near the end of function and overwiriting is okay.
+		// because it's near the end of function and overwriting is okay.
 		
 		// TODO: if ends with '{', delay and tabNum++.
 		// TODO: if ends with '}', write and tabNum--.
@@ -107,4 +118,8 @@ int cinter_write(char *stc) {
 		fflush(cinterfp); // flush to write in.
 		return 1;
 	}
+}
+
+void closeProcess() {
+	fclose(cinterfp);
 }

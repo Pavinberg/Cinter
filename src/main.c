@@ -3,9 +3,7 @@
 int main() {
 	char stc[BUFFER_SIZE]; // store the sentence input.
 
-	tabNum = 1;
-	create_cinter_file(&headPos, &codePos); // create cinter.c source file
-	cinterfp = fopen("cinter.c", "r+");
+	create_cinter_file(); // create cinter.c source file
 	
 	print_info();
 	print_prompt();
@@ -15,6 +13,6 @@ int main() {
 			runCinter();
 		print_prompt();
 	}
-	fclose(cinterfp);
-	//clean();
+	closeProcess();
+	clean();
 }
