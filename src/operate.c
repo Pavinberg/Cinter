@@ -1,10 +1,13 @@
 #include "cinter.h"
 
-void runCinter() {
-	system("gcc cinter.c -o cinterprocess");
+void run_cinter() {
+	int ret = system("gcc cinter.c -o cinterprocess");
+	if(ret != 0) {
+		withdraw();
+	}
 	system("./cinterprocess");
 }
 
 void clean() {
-	system("rm cinter.c cinterprocess");
+	system("rm cinter.c cinter_last.c cinterprocess");
 }

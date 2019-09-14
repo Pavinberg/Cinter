@@ -10,9 +10,9 @@ int main() {
 	while(fgets(stc, BUFFER_SIZE, stdin) != NULL) {
 		int runFlag = cinter_write(stc);
 		if(runFlag)
-			runCinter();
+			run_cinter();
 		print_prompt();
 	}
-	closeProcess();
+	close_cinter_file();
 	clean();
 }

@@ -1,5 +1,5 @@
 src = main.c edit.c operate.c magic.c
-prog = test
+prog = cinter
 obj = $(src:%.c=%.o)
 
 run: $(src)
@@ -7,4 +7,4 @@ run: $(src)
 	./$(prog)
 
 clean:
-	rm -rf $(obj) $(prog) cinter.c *~
+	rm -rf $(obj) $(prog) *~
