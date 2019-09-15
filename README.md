@@ -8,4 +8,4 @@ After launching, Cinter maintains a C source file `cinter.c` including commonly 
 
 ## Developing
 
-The project has just started and only has preliminary functions. Besides, it is my first open source project and any advice is well welcome. 
+The project has just started and only has preliminary functions. It is developed on macOS and other operating systems havn't been tested. Besides, it is my first open source project and any advice is well welcome. 
