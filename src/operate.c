@@ -6,7 +6,9 @@ void change_dir() {
 	char workdir[64];
 	sprintf(workdir, "%s/.cinter", home);
 	if(access(workdir, F_OK) == -1) {
-		int e = system(strcat("mkdir ", workdir));
+		char cmd[64];
+		sprintf(cmd, "mkdir %s", workdir);
+		int e = system(cmd);
 		if(e) {
 			printf("Cinter error: failed to mkdir ~/.cinter/");
 			exit(-1);
