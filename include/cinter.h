@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <string.h>
 #include <signal.h>
 #include <ctype.h>
@@ -13,22 +14,23 @@
 struct CinterFile {
 	char name[NAME_LEN];
 	FILE *fp;
-	fpos_t headPos; // Position where include sentence ends
-	fpos_t codePos; // Position where codes ends.
+	fpos_t fpos; // Position where codes ends.
+	struct CinterFile *copy; // copy of the cinterfile
 };
 
 int promptTabNum; // Used to print four dots in prompt
 int tabNum; // the depth of {}
+enum RunFlag{nBnR, nBR, BnR, BR};
 
 // edit.c
 void create_cinter_file();
-int cinter_write(char *stc);
+enum RunFlag cinter_write(char *stc);
 void withdraw();
-void close_cinter_file();
+void clean_and_exit();
 
 // operate.c
-void run_cinter();
-void clean_and_exit();
+void change_dir();
+void run_cinter(enum RunFlag runFlag);
 
 // command.c
 void print_info();

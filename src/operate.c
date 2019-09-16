@@ -1,16 +1,38 @@
 #include "cinter.h"
 
-void run_cinter() {
-	int ret = system("gcc cinter.c -o cinterprocess");
-	if(ret != 0) {
-		withdraw();
+void change_dir() {
+	// Create ~/.cinter dir if not exists
+	const char *home = getenv("HOME");
+	char workdir[64];
+	sprintf(workdir, "%s/.cinter", home);
+	if(access(workdir, F_OK) == -1) {
+		int e = system(strcat("mkdir ", workdir));
+		if(e) {
+			printf("Cinter error: failed to mkdir ~/.cinter/");
+			exit(-1);
+		}
 	}
-	system("./cinterprocess");
+	chdir(workdir); // change working directory
 }
 
-void clean_and_exit() {
-	system("test -e cinter.c && rm cinter.c");
-	system("test -e last_cinter.c && rm last_cinter.c");
-	system("test -e cinterprocess && rm cinterprocess");
-	exit(0);
+void run_cinter(enum RunFlag runFlag) {
+	int ret;
+	switch(runFlag) {
+	case nBnR: return;
+	case nBR:  return;
+	case BnR:
+		ret = system("gcc ctmain.c ctfunc.c -o cinterprocess");
+		if(ret != 0) {
+			withdraw();
+		};
+		break;
+	case BR:
+		ret = system("gcc ctmain.c ctfunc.c -o cinterprocess");
+		if(ret != 0) {
+			withdraw();
+		};
+		system("./cinterprocess");
+		break;
+	default: printf("Unknow error in run_cinter()\n"); exit(-1);
+	}
 }

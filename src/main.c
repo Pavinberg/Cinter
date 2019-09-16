@@ -7,21 +7,22 @@ int main(int argc, char *argv[]) {
 
 	char *stc; // store the sentence input.
 
+	change_dir(); // change dir to ~/.cinter
 	create_cinter_file(); // create cinter.c source file
-	tabNum = 1;
-	
+	tabNum = 1; // Used to print ····
 	print_info();
 
-	char prompt[50];
+	char prompt[64];
 	sprintf(prompt, "\033[32;1m[%d]>\033[0m ", ++lineNum); // create a promt
 
 	using_history();
 	signal(SIGINT, clean_and_exit); // To clean up temporary files when interrupted
+
+	// main loop
     while((stc = readline(prompt)) != NULL) {
 		add_history(stc); // save the history
-		int runFlag = cinter_write(stc); // flag to determine whether to build and run.
-		if(runFlag)
-			run_cinter();
+		enum RunFlag runFlag = cinter_write(stc); // flag to determine whether to build or run.
+		run_cinter(runFlag);
 		free(stc);
 		
 		sprintf(prompt, "\033[32;1m[%d]>\033[0m ", ++lineNum); // Update prompt
@@ -31,6 +32,5 @@ int main(int argc, char *argv[]) {
 		}
 	}
 	
-	close_cinter_file();
 	clean_and_exit();
 }
