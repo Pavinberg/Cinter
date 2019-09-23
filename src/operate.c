@@ -2,6 +2,7 @@
 
 void change_dir() {
 	// Create ~/.cinter dir if not exists
+	getcwd(currentWd, BUFFER_SIZE*2);
 	const char *home = getenv("HOME");
 	char workdir[64];
 	sprintf(workdir, "%s/.cinter", home);

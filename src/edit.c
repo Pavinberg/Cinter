@@ -232,13 +232,17 @@ enum RunFlag cinter_write(char *stc, int *tabNum) {
 			if(strncmp(stc, "print", 5) == 0) {
 				withdrawFlag = 1;
 			}
-			
-			cinter_insert_source(&ctfile[FUNC], stc, len);
-			wroteTo = FUNC;
-			if(!waitBlock)
-				retValue = BR;
-			else
+
+			if(len <= 0)
 				retValue = nBnR;
+			else {				
+				cinter_insert_source(&ctfile[FUNC], stc, len);
+				wroteTo = FUNC;
+				if(!waitBlock)
+					retValue = BR;
+				else
+					retValue = nBnR;
+			}
 		}
 	}
 	return retValue;

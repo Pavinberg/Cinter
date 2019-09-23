@@ -21,6 +21,7 @@ struct CinterFile {
 int promptTabNum; // Used to print four dots in prompt
 int withdrawFlag;
 enum RunFlag{nBnR, nBR, BnR, BR};
+char currentWd[BUFFER_SIZE * 2];
 
 // edit.c
 void create_cinter_file();
