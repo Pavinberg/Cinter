@@ -1,5 +1,15 @@
 #include "cinter.h"
 
+void cmd_imple(int argc, char *argv[]) {
+	// use gcc to build and run the source file input
+	char cmd[BUFFER_SIZE]= "gcc -o cinter_out";
+	for(int i=1; i<argc; i++) {
+		sprintf(cmd, "%s %s", cmd, argv[i]);
+	}
+	system(cmd);
+	system("./cinter_out");
+}
+
 void change_dir() {
 	// Create ~/.cinter dir if not exists
 	getcwd(currentWd, BUFFER_SIZE*2);

@@ -11,7 +11,10 @@ void update_prompt(char *prompt, int tabNum) {
 }
 
 int main(int argc, char *argv[]) {
-	// TODO: add command line parameters implements.
+	if(argc > 1) {
+		cmd_imple(argc, argv);
+		return 0;
+	}
 
 	char *stc; // store the sentence input.
 

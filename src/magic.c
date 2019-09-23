@@ -1,4 +1,4 @@
-#include "../include/cinter.h"
+#include "cinter.h"
 
 #define TOKEN_MAX 10
 #define TOKEN_LEN 60

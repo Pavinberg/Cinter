@@ -30,6 +30,7 @@ void withdraw();
 void clean_and_exit();
 
 // operate.c
+void cmd_imple(int argc, char *argv[]);
 void change_dir();
 void run_cinter(enum RunFlag runFlag);
 
