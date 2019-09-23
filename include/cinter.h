@@ -19,12 +19,12 @@ struct CinterFile {
 };
 
 int promptTabNum; // Used to print four dots in prompt
-int tabNum; // the depth of {}
+int withdrawFlag;
 enum RunFlag{nBnR, nBR, BnR, BR};
 
 // edit.c
 void create_cinter_file();
-enum RunFlag cinter_write(char *stc);
+enum RunFlag cinter_write(char *stc, int *tabNum);
 void withdraw();
 void clean_and_exit();
 
@@ -36,5 +36,5 @@ void run_cinter(enum RunFlag runFlag);
 void print_info();
 
 // magic.c
-void magic(char *stc);
+int magic(char *stc);
 

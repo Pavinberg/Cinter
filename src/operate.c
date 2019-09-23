@@ -31,10 +31,13 @@ void run_cinter(enum RunFlag runFlag) {
 	case BR:
 		ret = system("gcc ctmain.c ctfunc.c -o cinterprocess");
 		if(ret != 0) {
-			withdraw();
+			withdraw();		
 		};
 		system("./cinterprocess");
 		break;
 	default: printf("Unknow error in run_cinter()\n"); exit(-1);
+	}
+	if(withdrawFlag) {
+		withdraw();
 	}
 }

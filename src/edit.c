@@ -1,7 +1,7 @@
 /*
 Notifications:
 Always fseek before read or write.
- */
+*/
 
 #include "cinter.h"
 
@@ -17,13 +17,13 @@ Always fseek before read or write.
 #define FUNC 3
 static struct CinterFile ctfile[4], ctfile_cpy[4];
 
-//extern int tabNum;
 static int waitBlock; // 0/1, whether wait to build until the whole block input
 static int wroteTo; // Store which file has been written last time s.t. we can withdraw it
 static int block_depth; // Store the depth of block{}
 
 void create_cinter_file() {
 	/* Create template source file */
+	withdrawFlag = 0;
 	
 	strcpy(ctfile[STDH].name, "stdhead.h");
 	strcpy(ctfile[HEAD].name,  "cthead.h");
@@ -163,9 +163,10 @@ void cinter_insert_source(struct CinterFile *cf, char *stc, int len) {
 
 int strip(char *stc);
 
-enum RunFlag cinter_write(char *stc) {
+enum RunFlag cinter_write(char *stc, int *tabNum) {
 	/*
 	  Write the sentence input to the source file cinter.c
+	  tabNum is used to retract for prompt.
 	  Return: Whether to build or run.
 	          nBnR(0x00): no build, no run
 			  nBR (0x01): no build, run
@@ -187,11 +188,6 @@ enum RunFlag cinter_write(char *stc) {
 		wroteTo = STDH;
 		retValue = BnR;
 	}
-	else if(stc[0] == '%') {
-		// Magic function. To be implemented.
-		magic(stc);
-		retValue = nBnR;
-	}
 	else if(strcmp(stc, "help") == 0) {
 		printf("No document yet.\n");
 		retValue = nBnR;
@@ -205,15 +201,20 @@ enum RunFlag cinter_write(char *stc) {
 	    retValue = nBnR;
 	}
 	else {
+		if(stc[0] == '%') {
+			// Magic function.
+			len = magic(stc);
+			if(len == -1) return -1;
+		}
 		if(stc[len-1] == '{') {
 			// if ends with '{', delay running and block_depth++.
 			waitBlock = 1;
 			block_depth ++;
-			tabNum ++;
+			(*tabNum) ++;
 		}
 		else if(stc[len-1] == '}') {
 			block_depth --;
-			tabNum --;
+			(*tabNum) --;
 			// block_dept == 0, stop waiting.
 				if(block_depth == 0)
 					waitBlock = 0;
@@ -228,6 +229,9 @@ enum RunFlag cinter_write(char *stc) {
 		else {
 			// A line of  code
 			// TODO: if output, withdraw after output
+			if(strncmp(stc, "print", 5) == 0) {
+				withdrawFlag = 1;
+			}
 			
 			cinter_insert_source(&ctfile[FUNC], stc, len);
 			wroteTo = FUNC;
@@ -247,6 +251,7 @@ void withdraw() {
 	char cmd[BUFFER_SIZE];
 	sprintf(cmd, "cp %s %s", ctfile_cpy[wroteTo].name, ctfile[wroteTo].name);
 	ctfile[wroteTo].fpos = ctfile_cpy[wroteTo].fpos;
+	withdrawFlag = 0;
 	system(cmd);
 }
 
