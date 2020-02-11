@@ -2,7 +2,7 @@
 
 void cmd_imple(int argc, char *argv[]) {
 	// use gcc to build and run the source file input
-	char cmd[BUFFER_SIZE]= "gcc -o cinter_out";
+	char cmd[BUFFER_SIZE]= "g++ -o cinter_out";
 	for(int i=1; i<argc; i++) {
 		sprintf(cmd, "%s %s", cmd, argv[i]);
 	}

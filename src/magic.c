@@ -47,7 +47,8 @@ int magic_export() {
 
 int magic(char *stc) {
 	get_tokens(stc);
-	if(strcmp(token_list[0], "%print") == 0) {
+	if(strcmp(token_list[0], "%print") == 0
+	   || strcmp(token_list[0], "%p") == 0) {
 		return magic_print(stc);
 	}
 	else if(strcmp(token_list[0], "%export") == 0) {
